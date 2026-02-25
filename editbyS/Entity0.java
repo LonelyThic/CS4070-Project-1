@@ -50,6 +50,35 @@ public class Entity0 extends Entity
             printDT();
         }  
     }
+
+    private void sendToNeighbors(int id)
+{
+    int[] mincost = new int[NetworkSimulator.NUMENTITIES];
+
+    // compute minimum cost to each destination
+    for (int dest = 0; dest < NetworkSimulator.NUMENTITIES; dest++)
+    {
+        int min = 999;
+
+        for (int via = 0; via < NetworkSimulator.NUMENTITIES; via++)
+        {
+            if (distanceTable[dest][via] < min)
+                min = distanceTable[dest][via];
+        }
+
+        mincost[dest] = min;
+    }
+
+    for (int neighbor = 0; neighbor < NetworkSimulator.NUMENTITIES; neighbor++)
+    {
+        if (neighbor != id &&
+            NetworkSimulator.cost[id][neighbor] != 999)
+        {
+            Packet pkt = new Packet(id, neighbor, mincost);
+            NetworkSimulator.toLayer2(pkt);
+        }
+    }
+    }
     
     public void linkCostChangeHandler(int whichLink, int newCost)
     {
