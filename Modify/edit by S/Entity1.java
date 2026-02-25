@@ -1,8 +1,21 @@
 public class Entity1 extends Entity
-{    
+{
+	private static final int INFINITY = 999;
+    private int id = 1;    
     // Perform any necessary initialization in the constructor
     public Entity1()
     {
+		System.out.println("Entity1 constructor called");
+
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+            for(int j=0;j<NetworkSimulator.NUMENTITIES;j++)
+                distanceTable[i][j] = INFINITY;
+
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+            distanceTable[i][i] = NetworkSimulator.cost[id][i];
+
+        sendToNeighbors();
+        printDT();
     }
     
     // Handle updates when a packet is received.  Students will need to call
@@ -12,6 +25,53 @@ public class Entity1 extends Entity
     // details.
     public void update(Packet p)
     {
+		System.out.println("Entity1 receives packet from "+p.getSource());
+
+        boolean updated = false;
+        int src = p.getSource();
+
+        for(int dest=0; dest<NetworkSimulator.NUMENTITIES; dest++)
+        {
+            int newCost =
+                NetworkSimulator.cost[id][src] +
+                p.getMincost(dest);
+
+            if(newCost < distanceTable[dest][src])
+            {
+                distanceTable[dest][src] = newCost;
+                updated = true;
+            }
+        }
+
+        if(updated)
+        {
+            sendToNeighbors();
+            printDT();
+        }
+    }
+	
+	private int[] getMinCost()
+    {
+        int[] min = new int[NetworkSimulator.NUMENTITIES];
+
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+        {
+            min[i]=INFINITY;
+            for(int j=0;j<NetworkSimulator.NUMENTITIES;j++)
+                min[i]=Math.min(min[i],distanceTable[i][j]);
+        }
+        return min;
+    }
+
+	private void sendToNeighbors()
+    {
+        int[] mincost = getMinCost();
+
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+        {
+            if(i!=id && NetworkSimulator.cost[id][i]!=INFINITY)
+                NetworkSimulator.toLayer2(new Packet(id,i,mincost));
+        }
     }
     
     public void linkCostChangeHandler(int whichLink, int newCost)
