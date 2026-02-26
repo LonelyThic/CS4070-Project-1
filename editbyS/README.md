@@ -206,3 +206,39 @@ Then sent via:
 
 This simulates routing message exchange between routers.
 
+  -----------------------
+  7. printDT() Function
+  -----------------------
+
+Already provided. Displays the distance table showing:
+
+Rows → destination Columns→ next-hop router
+
+Used for debugging and grading output.
+
+  ----------------------------
+  8. linkCostChangeHandler()
+  ----------------------------
+
+Not implemented because the assignment instructions specify that link
+cost changes are not required for this project.
+
+  -----------------------
+  9. Testing Procedure
+  -----------------------
+
+Required test inputs: Trace Level: 3 Link Change: 0 Random Seed: 1
+
+Output saved using: java Project > Output.txt
+
+  ------------
+  110. Result
+  ------------
+
+each entity contains the optimal shortest path costs to every other entity in the network.
+
+what am i doing... idk... help me...
+
+  -----------------
+  END OF DOCUMENT
+  -----------------
