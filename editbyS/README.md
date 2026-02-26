@@ -127,3 +127,37 @@ in this folder. you can edit it or just edit the normal one. i made this for tes
         return min;
     }
 
+  ------------------------------------------------------------
+  1. Overview
+  ------------------------------------------------------------
+  Each router in the network is represented as an Entity (Entity0 – Entity3).
+
+  The simulator models how routers exchange routing information using distance vector updates until the network converges to optimal paths.
+  ------------------------------------------------------------
+
+2. Files Implemented / Modified
+
+Entity0.java Entity1.java Entity2.java Entity3.java
+
+Each entity represents a router node and performs:
+
+• Distance table initialization • Sending initial distance vectors to
+neighbors • Receiving routing updates • Updating routing tables using
+Bellman‑Ford logic • Sending updated vectors when costs change
+
+  ---------------------------------------
+  3. Initialization Added (Constructor)
+  ---------------------------------------
+
+Inside each Entity constructor:
+
+1.  The distance table is initialized.
+
+2.  Direct link costs are copied from:
+    NetworkSimulator.cost[entity][neighbor]
+
+3.  Unknown paths are set to 999 (infinity).
+
+4.  The router sends its initial distance vector to all neighbors using
+    NetworkSimulator.toLayer2().
+
