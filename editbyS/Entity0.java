@@ -1,5 +1,5 @@
 public class Entity0 extends Entity
-{    
+    {    
     private static final int INFINITY = 999;
     private int id = 0;
 
@@ -52,7 +52,7 @@ public class Entity0 extends Entity
     }
 
     private void sendToNeighbors(int id)
-{
+    {
     int[] mincost = new int[NetworkSimulator.NUMENTITIES];
 
     // compute minimum cost to each destination

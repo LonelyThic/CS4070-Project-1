@@ -1,5 +1,5 @@
 public class Entity2 extends Entity
-{    
+    {    
     private static final int INFINITY = 999;
     private int id = 2;
 

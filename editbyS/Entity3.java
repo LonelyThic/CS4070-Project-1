@@ -1,5 +1,5 @@
 public class Entity3 extends Entity
-{    
+    {    
     private static final int INFINITY = 999;
     private int id = 3;
     // Perform any necessary initialization in the constructor
