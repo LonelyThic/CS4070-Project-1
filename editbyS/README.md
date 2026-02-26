@@ -161,3 +161,48 @@ Inside each Entity constructor:
 4.  The router sends its initial distance vector to all neighbors using
     NetworkSimulator.toLayer2().
 
+  ------------------------------------
+  4. Update(Packet p) Implementation
+  ------------------------------------
+
+When a router receives a packet:
+
+Step 1 – Identify sender int source = p.getSource();
+
+Step 2 – Update distance table distanceTable[destination][source] =
+cost_to_source + source_advertised_cost;
+
+Step 3 – Apply Bellman‑Ford Algorithm For every destination: minimum
+cost = min over all neighbors (cost_to_neighbor + neighbor_distance)
+
+Step 4 – Detect Change If any minimum cost changes → routing table
+updated.
+
+Step 5 – Send New Distance Vector If update occurs, send new Packet to
+all neighbors.
+
+Purpose: This simulates distributed routing updates asynchronously.
+
+  ----------------------------
+  5. Bellman‑Ford Logic Used
+  ----------------------------
+
+NewCost(destination via neighbor) = Cost(this → neighbor) +
+NeighborCost(neighbor → destination)
+
+The router selects the minimum value among all neighbors.
+
+  ------------------------------
+  6. Packet Transmission Added
+  ------------------------------
+
+Packets are created using:
+
+    new Packet(source, destination, mincost[])
+
+Then sent via:
+
+    NetworkSimulator.toLayer2(packet);
+
+This simulates routing message exchange between routers.
+
