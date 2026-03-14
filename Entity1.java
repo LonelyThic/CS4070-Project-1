@@ -60,6 +60,17 @@ public class Entity1 extends Entity
         }
         return min;
     }
+
+	private void sendToNeighbors()
+    {
+        int[] mincost = getMinCost();
+
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+        {
+            if(i!=id && NetworkSimulator.cost[id][i]!=INFINITY)
+                NetworkSimulator.toLayer2(new Packet(id,i,mincost));
+        }
+    }
     
     public void linkCostChangeHandler(int whichLink, int newCost)
     {
