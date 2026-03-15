@@ -1,0 +1,30 @@
+CS4070 Project 1 – Distributed Asynchronous Distance Vector Routing
+Implementation Explanation
+
+Working in progress
+------------------------------------------------------------
+  Code with comments
+  ------------------------------------------------------------
+1. Entity0:
+
+public class Entity0 extends Entity
+{
+    // Constructor: initialize distance table and send initial packets
+    public Entity0()
+    {
+        System.out.println("Initializing Entity0");
+
+        // Initialize distance table
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+            for(int j=0;j<NetworkSimulator.NUMENTITIES;j++)
+                distanceTable[i][j] = 999;
+
+        // Set direct link costs
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+            distanceTable[i][i] = NetworkSimulator.cost[0][i];
+
+        printDT();
+
+        // Send initial distance vector to neighbors
+        sendUpdate();
+    }
