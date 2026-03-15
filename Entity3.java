@@ -47,6 +47,20 @@ public class Entity3 extends Entity
             printDT();
         }
     }
+
+    private int[] getMinCost()
+    {
+        int[] min=new int[NetworkSimulator.NUMENTITIES];
+
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+        {
+            min[i]=INFINITY;
+            for(int j=0;j<NetworkSimulator.NUMENTITIES;j++)
+                min[i]=Math.min(min[i],distanceTable[i][j]);
+        }
+        return min;
+    }
+
     
     public void linkCostChangeHandler(int whichLink, int newCost)
     {
