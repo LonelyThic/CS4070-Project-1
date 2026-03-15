@@ -1,7 +1,9 @@
 CS4070 Project 1 – Distributed Asynchronous Distance Vector Routing
 Implementation Explanation
 
-2. Files Implemented / Modified
+  ---------------------------------------
+  1 Files Implemented / Modified
+  ---------------------------------------
 
 Entity0.java Entity1.java Entity2.java Entity3.java
 
@@ -12,7 +14,7 @@ neighbors • Receiving routing updates • Updating routing tables using
 Bellman‑Ford logic • Sending updated vectors when costs change
 
   ---------------------------------------
-  3. Initialization Added (Constructor)
+  2 Initialization Added (Constructor)
   ---------------------------------------
 
 Inside each Entity constructor:
@@ -28,7 +30,7 @@ Purpose: Routers must advertise their initial knowledge immediately when
 the simulation starts.
 
   ------------------------------------
-  4. Update(Packet p) Implementation
+  3. Update(Packet p) Implementation
   ------------------------------------
 
 When a router receives a packet:
@@ -50,7 +52,7 @@ all neighbors.
 Purpose: This simulates distributed routing updates asynchronously.
 
   ----------------------------
-  5. Bellman‑Ford Logic Used
+  4. Bellman‑Ford Logic Used
   ----------------------------
 
 NewCost(destination via neighbor) = Cost(this → neighbor) +
@@ -59,7 +61,7 @@ NeighborCost(neighbor → destination)
 The router selects the minimum value among all neighbors.
 
   ------------------------------
-  6. Packet Transmission Added
+  7. Packet Transmission Added
   ------------------------------
 
 Packets are created using:
