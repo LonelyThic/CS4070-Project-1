@@ -1,3 +1,29 @@
 CS4070 Project 1 – Distributed Asynchronous Distance Vector Routing
 Implementation Explanation
 
+2. Files Implemented / Modified
+
+Entity0.java Entity1.java Entity2.java Entity3.java
+
+Each entity represents a router node and performs:
+
+• Distance table initialization • Sending initial distance vectors to
+neighbors • Receiving routing updates • Updating routing tables using
+Bellman‑Ford logic • Sending updated vectors when costs change
+
+  ---------------------------------------
+  3. Initialization Added (Constructor)
+  ---------------------------------------
+
+Inside each Entity constructor:
+
+1.  The distance table is initialized.
+2.  Direct link costs are copied from:
+    NetworkSimulator.cost[entity][neighbor]
+3.  Unknown paths are set to 999 (infinity).
+4.  The router sends its initial distance vector to all neighbors using
+    NetworkSimulator.toLayer2().
+
+Purpose: Routers must advertise their initial knowledge immediately when
+the simulation starts.
+
