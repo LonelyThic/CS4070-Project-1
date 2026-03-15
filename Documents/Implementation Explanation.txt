@@ -28,3 +28,20 @@ public class Entity0 extends Entity
         // Send initial distance vector to neighbors
         sendUpdate();
     }
+    
+    /*
+     * Send minimum cost vector to neighbors
+     */
+    private void sendUpdate()
+    {
+        int[] mincost = getMinCost();
+
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+        {
+            if(i!=0 && NetworkSimulator.cost[0][i] != 999)
+            {
+                Packet p = new Packet(0, i, mincost);
+                NetworkSimulator.toLayer2(p);
+            }
+        }
+    }
