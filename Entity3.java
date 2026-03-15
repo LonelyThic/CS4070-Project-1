@@ -23,6 +23,29 @@ public class Entity3 extends Entity
     // details.
     public void update(Packet p)
     {
+        System.out.println("Entity3 receives packet from "+p.getSource());
+
+        boolean updated=false;
+        int src=p.getSource();
+
+        for(int dest=0;dest<NetworkSimulator.NUMENTITIES;dest++)
+        {
+            int newCost=
+                NetworkSimulator.cost[id][src]+
+                p.getMincost(dest);
+
+            if(newCost<distanceTable[dest][src])
+            {
+                distanceTable[dest][src]=newCost;
+                updated=true;
+            }
+        }
+
+        if(updated)
+        {
+            sendToNeighbors();
+            printDT();
+        }
     }
     
     public void linkCostChangeHandler(int whichLink, int newCost)
