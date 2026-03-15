@@ -26,13 +26,13 @@ public class Entity0 extends Entity
         printDT();
 
         // Send initial distance vector to neighbors
-        sendUpdate();
+        sendToNeighbors();
     }
-    
+
     /*
      * Send minimum cost vector to neighbors
      */
-    private void sendUpdate()
+    private void sendToNeighbors()
     {
         int[] mincost = getMinCost();
 
@@ -45,3 +45,5 @@ public class Entity0 extends Entity
             }
         }
     }
+
+    
