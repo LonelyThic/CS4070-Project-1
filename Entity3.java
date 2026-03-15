@@ -3,6 +3,17 @@ public class Entity3 extends Entity
     // Perform any necessary initialization in the constructor
     public Entity3()
     {
+        System.out.println("Entity3 constructor called");
+
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+            for(int j=0;j<NetworkSimulator.NUMENTITIES;j++)
+                distanceTable[i][j]=INFINITY;
+
+        for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
+            distanceTable[i][i]=NetworkSimulator.cost[id][i];
+
+        sendToNeighbors();
+        printDT();
     }
     
     // Handle updates when a packet is received.  Students will need to call
