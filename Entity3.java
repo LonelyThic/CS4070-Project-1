@@ -1,5 +1,7 @@
 public class Entity3 extends Entity
 {    
+    static final int INFINITY = 999;
+    int id = 3;
     // Perform any necessary initialization in the constructor
     public Entity3()
     {
