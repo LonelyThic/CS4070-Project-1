@@ -1,130 +1,111 @@
-**Distance Vector Routing Project Report**
+Distance Vector Routing Project Report
 
----
-
-### **1. Implementation of the Project**
-
-**Overview**
-
+1. Implementation of the Project
+Overview
 This project implements the Distributed Asynchronous Distance Vector Routing Algorithm using Java. Each node (Entity0–Entity3) independently computes the shortest path to all other nodes by exchanging routing information with its neighbors.
 
----
-
-**Algorithm Used**
-
+Algorithm Used
 The project is based on the Bellman-Ford Algorithm:
-
 Dx(y) = min [ C(x,v) + Dv(y) ]
-
 Where:
+Dx(y) = cost from node X to destination Y
+C(x,v) = cost from node X to neighbor V
+Dv(y) = cost from neighbor V to destination Y
 
-* Dx(y) = cost from node X to destination Y
-* C(x,v) = cost from node X to neighbor V
-* Dv(y) = cost from neighbor V to destination Y
+Implementation Steps
+Initialization
+Each node initializes its distance table with infinity (999), sets direct link costs from NetworkSimulator, and sets the cost to itself as 0. Then it sends its initial distance vector to neighbors.
+Sending Distance Vectors
+Each node sends its minimum cost vector to directly connected neighbors using NetworkSimulator.toLayer2().
+Receiving Updates
+When a node receives a packet, it updates its distance table using the Bellman-Ford formula.
+Updating Table
+If a shorter path is found, the node updates its table.
+Propagation
+If any value changes, the node sends updated distance vectors to neighbors.
+Termination
+The process continues until no more updates occur and no packets remain in the system.
 
----
+Flowchart
++----------------------+
+|        START         |
++----------------------+
+           |
+           v
++----------------------+
+| Initialize Table     |
++----------------------+
+           |
+           v
++----------------------+
+| Send Initial Vector  |
++----------------------+
+           |
+           v
++----------------------+
+| Receive Packet       |
++----------------------+
+           |
+           v
++----------------------+
+| Update Using DV Algo |
++----------------------+
+           |
+           v
++----------------------+
+| Cost Changed?        |
++---------+------------+
+          |Yes
+          v
++----------------------+
+| Send Updates         |
++----------------------+
+          |
+          v
+       (Loop Back)
+          |
+          No
+          v
++----------------------+
+| No More Packets      |
++----------------------+
+           |
+           v
++----------------------+
+|        END           |
++----------------------+
 
-**Implementation Steps**
 
-1. Initialization
-   Each node initializes its distance table with infinity (999), sets direct link costs from NetworkSimulator, and sets the cost to itself as 0. Then it sends its initial distance vector to neighbors.
+2. User Guide
+Development Environment
+Programming Language: Java
+JDK Version: 17 or higher
+Operating System: Windows / Mac / Linux
+IDE: IntelliJ / Eclipse / VS Code (optional)
 
-2. Sending Distance Vectors
-   Each node sends its minimum cost vector to directly connected neighbors using NetworkSimulator.toLayer2().
-
-3. Receiving Updates
-   When a node receives a packet, it updates its distance table using the Bellman-Ford formula.
-
-4. Updating Table
-   If a shorter path is found, the node updates its table.
-
-5. Propagation
-   If any value changes, the node sends updated distance vectors to neighbors.
-
-6. Termination
-   The process continues until no more updates occur and no packets remain in the system.
-
----
-
-**Flowchart**
-
-START
-↓
-Initialize Distance Table
-↓
-Send Initial Distance Vector
-↓
-Wait for Packet
-↓
-Receive Packet
-↓
-Apply Bellman-Ford Update
-↓
-Cost Changed?
-→ YES → Send Update → Repeat
-→ NO → Do Nothing
-↓
-No More Packets
-↓
-END
-
----
-
-### **2. User Guide**
-
-**Development Environment**
-
-* Programming Language: Java
-* JDK Version: 17 or higher
-* Operating System: Windows / Mac / Linux
-* IDE: IntelliJ / Eclipse / VS Code (optional)
-
----
-
-**How to Compile**
-
+How to Compile
 javac *.java
 
----
-
-**How to Run**
-
+How to Run
 java Project
 
----
-
-**Required Inputs**
-
+Required Inputs
 Trace Level: 3
 Link Change: 0
 Random Seed: 1
 
----
-
-**Generate Output File**
-
+Generate Output File
 java Project > Output.txt
 
----
+Expected Behavior
+Distance tables are printed
+Nodes exchange routing information
+Tables update dynamically
+Program terminates when convergence is reached
 
-**Expected Behavior**
+3. Contribution of Team Members
+Member 1: Danielle Garcia — 55% (Entity 2 and 3,)
+Member 2: Steven Yang — 45% (Entity 0 and1,)
 
-* Distance tables are printed
-* Nodes exchange routing information
-* Tables update dynamically
-* Program terminates when convergence is reached
-
----
-
-### **3. Contribution of Team Members**
-
-Member 1: __________________ — 40%
-Member 2: __________________ — 30%
-
----
-
-### **4. Conclusion**
-
+4. Conclusion
 This project demonstrates how distributed systems compute shortest paths using the Distance Vector Routing algorithm. The implementation simulates asynchronous communication and convergence using the Bellman-Ford approach.
-
----
