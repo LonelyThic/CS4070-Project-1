@@ -1,5 +1,7 @@
 public class Entity2 extends Entity
 {    
+    static final int INFINITY = 999;
+    int id = 2;
     // Perform any necessary initialization in the constructor
     public Entity2()
     {System.out.println("Entity2 constructor called");
