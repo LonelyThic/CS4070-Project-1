@@ -1,188 +1,130 @@
-CS4070 Project 1 – Distributed Asynchronous Distance Vector Routing
-Implementation Explanation
+**Distance Vector Routing Project Report**
 
-  ------------------------------------------------------------
-  1. Overview
-  ------------------------------------------------------------
-  This project implements a Distributed Asynchronous Distance
-  Vector Routing algorithm using Java. Each router in the
-  network is represented as an Entity (Entity0 – Entity3).
+---
 
-  The simulator models how routers exchange routing
-  information using distance vector updates until the network
-  converges to optimal paths.
-  ------------------------------------------------------------
+### **1. Implementation of the Project**
 
-2. Files Implemented / Modified
+**Overview**
 
-Entity0.java Entity1.java Entity2.java Entity3.java
+This project implements the Distributed Asynchronous Distance Vector Routing Algorithm using Java. Each node (Entity0–Entity3) independently computes the shortest path to all other nodes by exchanging routing information with its neighbors.
 
-Each entity represents a router node and performs:
+---
 
-• Distance table initialization • Sending initial distance vectors to
-neighbors • Receiving routing updates • Updating routing tables using
-Bellman‑Ford logic • Sending updated vectors when costs change
+**Algorithm Used**
 
-  ---------------------------------------
-  3. Initialization Added (Constructor)
-  ---------------------------------------
+The project is based on the Bellman-Ford Algorithm:
 
-Inside each Entity constructor:
+Dx(y) = min [ C(x,v) + Dv(y) ]
 
-1.  The distance table is initialized.
-2.  Direct link costs are copied from:
-    NetworkSimulator.cost[entity][neighbor]
-3.  Unknown paths are set to 999 (infinity).
-4.  The router sends its initial distance vector to all neighbors using
-    NetworkSimulator.toLayer2().
+Where:
 
-Purpose: Routers must advertise their initial knowledge immediately when
-the simulation starts.
+* Dx(y) = cost from node X to destination Y
+* C(x,v) = cost from node X to neighbor V
+* Dv(y) = cost from neighbor V to destination Y
 
-  ------------------------------------
-  4. Update(Packet p) Implementation
-  ------------------------------------
+---
 
-When a router receives a packet:
+**Implementation Steps**
 
-Step 1 – Identify sender int source = p.getSource();
+1. Initialization
+   Each node initializes its distance table with infinity (999), sets direct link costs from NetworkSimulator, and sets the cost to itself as 0. Then it sends its initial distance vector to neighbors.
 
-Step 2 – Update distance table distanceTable[destination][source] =
-cost_to_source + source_advertised_cost;
+2. Sending Distance Vectors
+   Each node sends its minimum cost vector to directly connected neighbors using NetworkSimulator.toLayer2().
 
-Step 3 – Apply Bellman‑Ford Algorithm For every destination: minimum
-cost = min over all neighbors (cost_to_neighbor + neighbor_distance)
+3. Receiving Updates
+   When a node receives a packet, it updates its distance table using the Bellman-Ford formula.
 
-Step 4 – Detect Change If any minimum cost changes → routing table
-updated.
+4. Updating Table
+   If a shorter path is found, the node updates its table.
 
-Step 5 – Send New Distance Vector If update occurs, send new Packet to
-all neighbors.
+5. Propagation
+   If any value changes, the node sends updated distance vectors to neighbors.
 
-Purpose: This simulates distributed routing updates asynchronously.
+6. Termination
+   The process continues until no more updates occur and no packets remain in the system.
 
-  ----------------------------
-  5. Bellman‑Ford Logic Used
-  ----------------------------
+---
 
-NewCost(destination via neighbor) = Cost(this → neighbor) +
-NeighborCost(neighbor → destination)
+**Flowchart**
 
-The router selects the minimum value among all neighbors.
+START
+↓
+Initialize Distance Table
+↓
+Send Initial Distance Vector
+↓
+Wait for Packet
+↓
+Receive Packet
+↓
+Apply Bellman-Ford Update
+↓
+Cost Changed?
+→ YES → Send Update → Repeat
+→ NO → Do Nothing
+↓
+No More Packets
+↓
+END
 
-  ------------------------------
-  6. Packet Transmission Added
-  ------------------------------
+---
 
-Packets are created using:
+### **2. User Guide**
 
-    new Packet(source, destination, mincost[])
+**Development Environment**
 
-Then sent via:
+* Programming Language: Java
+* JDK Version: 17 or higher
+* Operating System: Windows / Mac / Linux
+* IDE: IntelliJ / Eclipse / VS Code (optional)
 
-    NetworkSimulator.toLayer2(packet);
+---
 
-This simulates routing message exchange between routers.
+**How to Compile**
 
-  -----------------------
-  7. printDT() Function
-  -----------------------
+javac *.java
 
-Already provided. Displays the distance table showing:
+---
 
-Rows → destination Columns→ next-hop router
+**How to Run**
 
-Used for debugging and grading output.
+java Project
 
-  ----------------------------
-  8. linkCostChangeHandler()
-  ----------------------------
+---
 
-Not implemented because the assignment instructions specify that link
-cost changes are not required for this project.
+**Required Inputs**
 
-  ---------------------------
-  9. Program Execution Flow
-  ---------------------------
+Trace Level: 3
+Link Change: 0
+Random Seed: 1
 
-1.  Simulator starts.
-2.  Entities initialize distance tables.
-3.  Each router sends initial vectors.
-4.  Routers receive updates asynchronously.
-5.  Tables update repeatedly.
-6.  Network converges.
-7.  Simulator terminates when no packets remain.
+---
 
-  -----------------------
-  10. Testing Procedure
-  -----------------------
+**Generate Output File**
 
-Compile: javac *.java
+java Project > Output.txt
 
-Run: java Project
+---
 
-Required test inputs: Trace Level: 3 Link Change: 0 Random Seed: 1
+**Expected Behavior**
 
-Output saved using: java Project > Output.txt
+* Distance tables are printed
+* Nodes exchange routing information
+* Tables update dynamically
+* Program terminates when convergence is reached
 
-  ------------
-  11. Result
-  ------------
+---
 
-After convergence, each entity contains the optimal shortest path costs
-to every other entity in the network.
+### **3. Contribution of Team Members**
 
-This demonstrates a working Distributed Distance Vector Routing protocol
-simulation.
+Member 1: __________________ — 40%
+Member 2: __________________ — 30%
 
-  -----------------
-  END OF DOCUMENT
-  -----------------
+---
 
-  +----------------------+
-|        START         |
-+----------------------+
-           |
-           v
-+----------------------+
-| Initialize Table     |
-+----------------------+
-           |
-           v
-+----------------------+
-| Send Initial Vector  |
-+----------------------+
-           |
-           v
-+----------------------+
-| Receive Packet       |
-+----------------------+
-           |
-           v
-+----------------------+
-| Update Using DV Algo |
-+----------------------+
-           |
-           v
-+----------------------+
-| Cost Changed?        |
-+---------+------------+
-          |Yes
-          v
-+----------------------+
-| Send Updates         |
-+----------------------+
-          |
-          v
-       (Loop Back)
-          |
-          No
-          v
-+----------------------+
-| No More Packets      |
-+----------------------+
-           |
-           v
-+----------------------+
-|        END           |
-+----------------------+
+### **4. Conclusion**
+
+This project demonstrates how distributed systems compute shortest paths using the Distance Vector Routing algorithm. The implementation simulates asynchronous communication and convergence using the Bellman-Ford approach.
+
+---
