@@ -104,8 +104,8 @@ Tables update dynamically
 Program terminates when convergence is reached
 
 3. Contribution of Team Members
-Member 1: Danielle Garcia — 55% (Entity 2 and 3,)
-Member 2: Steven Yang — 45% (Entity 0 and1,)
+Member 1: Danielle Garcia — 50% (Entity 2 and 3,)
+Member 2: Steven Yang — 50% (Entity 0 and1,)
 
 4. Conclusion
 This project demonstrates how distributed systems compute shortest paths using the Distance Vector Routing algorithm. The implementation simulates asynchronous communication and convergence using the Bellman-Ford approach.
