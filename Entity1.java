@@ -101,6 +101,7 @@ public class Entity1 extends Entity
     {
     }
     
+    // Prints the distance table in a formatted way
    public void printDT()
     {
         		System.out.println();
