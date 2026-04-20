@@ -34,31 +34,40 @@ public class Entity1 extends Entity
     // Called when a packet is received from a neighbor
     public void update(Packet p)
     {
+        // Print which node sent the packet
 		System.out.println("Entity1 receives packet from "+p.getSource());
 
+        // Track if table changes
         boolean updated = false;
+         // Neighbor who sent packet
         int src = p.getSource();
 
+        //Loop through all possible destinations
         for(int dest=0; dest<NetworkSimulator.NUMENTITIES; dest++)
         {
+            //Apply Bellman-Ford equation
+            // cost to dest via src =
+            // cost to src + src's cost to dest
             int newCost =
                 NetworkSimulator.cost[id][src] +
                 p.getMincost(dest);
 
+                //If new path is better, update table
             if(newCost < distanceTable[dest][src])
             {
                 distanceTable[dest][src] = newCost;
                 updated = true;
             }
         }
-
+        //If any update occurred, notify neighbors
         if(updated)
         {
-            sendToNeighbors();
-            printDT();
+            sendToNeighbors();  // Send updated distance vector to neighbors
+            printDT(); // Print updated distance table
         }
     }
 
+    // Computes the minimum cost to each destination based on the current distance table
 	private int[] getMinCost()
     {
         int[] min = new int[NetworkSimulator.NUMENTITIES];
@@ -72,12 +81,17 @@ public class Entity1 extends Entity
         return min;
     }
 
+     // Sends current distance vector to all directly connected neighbors
 	private void sendToNeighbors()
     {
+        // Get best known costs to all destinations
         int[] mincost = getMinCost();
 
         for(int i=0;i<NetworkSimulator.NUMENTITIES;i++)
         {
+            // Send only if:
+            // - not sending to itself
+            // - link exists (cost not infinity)
             if(i!=id && NetworkSimulator.cost[id][i]!=INFINITY)
                 NetworkSimulator.toLayer2(new Packet(id,i,mincost));
         }
